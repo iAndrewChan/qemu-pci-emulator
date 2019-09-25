@@ -1,3 +1,10 @@
+/*
+* edu basic
+* A device that does not have any functionality what so ever.
+* There are no defined memory regions for read and write to access the device.
+* The device is detected by the guest OS as an unclassified device.
+*/
+
 #include "qemu/osdep.h"
 #include "hw/pci/pci.h"
 
@@ -6,6 +13,7 @@
 typedef struct MyEduState {
     /* PCIDevice is required */
     PCIDevice pdev;
+
     /* Optional */
     int id;
     int arr[9];
@@ -15,6 +23,8 @@ typedef struct MyEduState {
 
 static void myedu_realize(PCIDevice *pci_dev, Error **errp){
     MyEduState *my_edu = MY_EDU_PCI(pci_dev);
+    
+    /* unmeaningful assignments */
     my_edu->id = 0x1222;
     my_edu->arr[0] = 2;
 
@@ -23,14 +33,14 @@ static void myedu_realize(PCIDevice *pci_dev, Error **errp){
 
 static void myedu_class_init(ObjectClass *class, void *data) {
     PCIDeviceClass *k = PCI_DEVICE_CLASS(class);
-    
+
     k->realize = myedu_realize;
 	
     /* identify device */
     k->vendor_id = PCI_VENDOR_ID_QEMU; 
     k->device_id = 0x111b; 
     k->class_id = PCI_CLASS_OTHERS;
-
+	
     k->revision = 0x0;
 };
 
